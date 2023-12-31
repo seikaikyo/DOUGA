@@ -10,8 +10,8 @@ This Python script downloads videos from specified YouTube playlists, ensuring t
 
 ## Recent Changes
 
-- Improved error handling for more reliable downloads.
-- Enhanced playlist URL processing for better compatibility.
+- Fixed a JSON parsing error and enhanced error handling for more reliable operations.
+- Improved compatibility with various playlist formats.
 
 ## Usage
 
@@ -27,7 +27,7 @@ This Python script downloads videos from specified YouTube playlists, ensuring t
 
 ## Contributing
 
-Your contributions are welcome! Please open an Issue to discuss your proposed changes before making a pull request.
+Contributions are welcome. Please open an Issue for discussion before making any significant changes.
 
 ## License
 
@@ -45,8 +45,8 @@ Your contributions are welcome! Please open an Issue to discuss your proposed ch
 
 ## 最近の変更
 
-- より信頼性の高いダウンロードのためのエラー処理を改善しました。
-- より良い互換性のためにプレイリスト URL の処理を強化しました。
+- JSON 解析エラーを修正し、エラー処理を強化してより信頼性の高い操作が可能になりました。
+- さまざまなプレイリスト形式との互換性を改善しました。
 
 ## 使い方
 
@@ -62,7 +62,7 @@ Your contributions are welcome! Please open an Issue to discuss your proposed ch
 
 ## 貢献
 
-貢献を歓迎します！プルリクエストを作成する前に、変更について Issue で議論してください。
+貢献を歓迎します。重要な変更を加える前に、議論のために Issue を開いてください。
 
 ## ライセンス
 
@@ -80,14 +80,14 @@ Your contributions are welcome! Please open an Issue to discuss your proposed ch
 
 ## 最近變更
 
-- 改進錯誤處理，提高下載的可靠性。
-- 增強播放列表 URL 處理，提高兼容性。
+- 修正了 JSON 解析錯誤並增強了錯誤處理，確保更可靠的操作。
+- 改進了對不同播放列表格式的兼容性。
 
 ## 使用方法
 
 1. 在您的環境中安裝 `pytube` 和 `yt-dlp`。
 2. 修改 `playlist_urls` 列表，加入您想要下載的 YouTube 播放列表的 URL。
-3. 運行腳本以從這些播放列表中下載新影片。
+3. 執行腳本以從這些播放列表中下載新影片。
 
 ## 依賴
 
@@ -97,7 +97,7 @@ Your contributions are welcome! Please open an Issue to discuss your proposed ch
 
 ## 貢獻
 
-歡迎您的貢獻！在發起拉取請求之前，請先開啟一個 Issue 討論您的修改。
+歡迎您的貢獻！如需變更，請先開啟一個 Issue 進行討論。
 
 ## 授權
 

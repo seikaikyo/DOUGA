@@ -20,22 +20,29 @@ def download_video(video_url, output_directory, playlist_title):
 def get_new_videos(playlist_url, history_path):
     """獲取新影片列表"""
     playlist = Playlist(playlist_url)
-    if not os.path.exists(history_path):
-        return playlist.video_urls  # 如果沒有歷史記錄，返回所有影片
-
-    with open(history_path, 'r') as file:
-        downloaded_videos = json.load(file).get(playlist_url, [])
+    
+    if not os.path.exists(history_path) or os.stat(history_path).st_size == 0:
+        downloaded_videos = []
+    else:
+        with open(history_path, 'r') as file:
+            try:
+                downloaded_videos = json.load(file).get(playlist_url, [])
+            except json.JSONDecodeError:
+                downloaded_videos = []
 
     new_videos = [video for video in playlist.video_urls if video not in downloaded_videos]
     return new_videos
 
 def update_download_history(playlist_url, video_url, history_path):
     """更新下載歷史記錄"""
-    if not os.path.exists(history_path):
+    if not os.path.exists(history_path) or os.stat(history_path).st_size == 0:
         downloaded_videos = {}
     else:
         with open(history_path, 'r') as file:
-            downloaded_videos = json.load(file)
+            try:
+                downloaded_videos = json.load(file)
+            except json.JSONDecodeError:
+                downloaded_videos = {}
 
     if playlist_url not in downloaded_videos:
         downloaded_videos[playlist_url] = []
@@ -44,6 +51,7 @@ def update_download_history(playlist_url, video_url, history_path):
 
     with open(history_path, 'w') as file:
         json.dump(downloaded_videos, file)
+
 
 def download_new_videos(playlist_url, output_directory, history_path):
     """自動下載新影片並更新歷史記錄"""
