@@ -1,23 +1,28 @@
 import subprocess
 import os
 import json
-from pytube import Playlist
+from pytube import Playlist, YouTube
 
 def download_video(video_url, output_directory, playlist_title):
-    """使用 yt-dlp 下載單個YouTube影片到指定播放列表的資料夾，並返回檔案路徑"""
+    try:
+        yt = YouTube(video_url)
+        video_title = yt.title
+    except Exception as e:
+        if "members-only" in str(e).lower():
+            mark_members_only(output_directory, playlist_title)
+            return None, None
+        else:
+            raise e
+
     playlist_directory = os.path.join(output_directory, playlist_title)
     if not os.path.exists(playlist_directory):
         os.makedirs(playlist_directory)
 
-    file_path = os.path.join(playlist_directory, '%(title)s.%(ext)s')
-    command = [
-        'yt-dlp',
-        '-o', file_path,
-        video_url
-    ]
+    file_path = os.path.join(playlist_directory, f'{video_title}.%(ext)s')
+    command = ['yt-dlp', '-o', file_path, video_url]
 
     subprocess.run(command)
-    return file_path
+    return video_title, file_path
 
 def get_new_videos(playlist_url, history_path):
     """獲取新影片列表"""
@@ -35,8 +40,7 @@ def get_new_videos(playlist_url, history_path):
     new_videos = [video for video in playlist.video_urls if video not in downloaded_videos]
     return new_videos
 
-def update_download_history(playlist_url, video_url, file_path, history_path):
-    """更新下載歷史記錄，包括檔案路徑"""
+def update_download_history(playlist_url, video_title, video_url, file_path, history_path):
     if not os.path.exists(history_path) or os.stat(history_path).st_size == 0:
         downloaded_videos = {}
     else:
@@ -49,10 +53,21 @@ def update_download_history(playlist_url, video_url, file_path, history_path):
     if playlist_url not in downloaded_videos:
         downloaded_videos[playlist_url] = []
 
-    downloaded_videos[playlist_url].append({'url': video_url, 'file_path': file_path})
+    if video_title and file_path:
+        downloaded_videos[playlist_url].append({'title': video_title, 'url': video_url, 'file_path': file_path})
 
-    with open(history_path, 'w') as file:
-        json.dump(downloaded_videos, file)
+    with open(history_path, 'w', encoding='utf-8') as file:
+        json.dump(downloaded_videos, file, indent=4, ensure_ascii=False)
+
+
+def mark_members_only(output_directory, playlist_title):
+    playlist_directory = os.path.join(output_directory, playlist_title)
+    if not os.path.exists(playlist_directory):
+        os.makedirs(playlist_directory)
+
+    marker_path = os.path.join(playlist_directory, "members-only.txt")
+    with open(marker_path, 'w') as file:
+        file.write("This playlist contains members-only content.\n")
 
 def filter_videos_by_keyword(playlist, keywords):
     """過濾掉含有特定關鍵字的影片"""
@@ -69,10 +84,12 @@ def download_new_videos(playlist_url, output_directory, history_path, exclude_ke
     filtered_videos = filter_videos_by_keyword(playlist, exclude_keywords)
     print(f"正在處理播放列表：{playlist.title}")
     print(f"即將下載的新影片：{[video for video in filtered_videos]}")
-    
+
     for video_url in filtered_videos:
-        file_path = download_video(video_url, output_directory, playlist.title)
-        update_download_history(playlist_url, video_url, file_path, history_path)
+        video_title, file_path = download_video(video_url, output_directory, playlist.title)
+        if video_title is not None and file_path is not None:
+            update_download_history(playlist_url, video_title, video_url, file_path, history_path)
+
 
 # 播放列表 URL
 playlist_urls = [
@@ -93,8 +110,8 @@ playlist_urls = [
 
 output_directory = "playlist_downloads"
 history_path = "download_history.json"
-
-exclude_keywords = ['預告','新番']
+exclude_keywords = ['預告', '新番']
 
 for playlist_url in playlist_urls:
     download_new_videos(playlist_url, output_directory, history_path, exclude_keywords)
+
