@@ -6,7 +6,7 @@ This Python script downloads videos from specified YouTube playlists, ensuring t
 
 - Automatically downloads new videos from YouTube playlists.
 - Organizes videos into separate folders for each playlist.
-- Maintains a download history to prevent redundancy.
+- Maintains a download history to prevent redundancy, including the file path.
 
 ## Recent Changes
 
@@ -41,7 +41,7 @@ Contributions are welcome. Please open an Issue for discussion before making any
 
 - YouTube プレイリストから新しい動画を自動的にダウンロードします。
 - 各プレイリストの動画を別々のフォルダに整理します。
-- 重複を避けるためのダウンロード履歴を維持します。
+- 重複を避けるためのダウンロード履歴を維持します。履歴にはファイルパスも含まれます。
 
 ## 最近の変更
 
@@ -76,7 +76,7 @@ Contributions are welcome. Please open an Issue for discussion before making any
 
 - 自動從 YouTube 播放列表中下載新影片。
 - 為每個播放列表中的影片在不同資料夾進行整理。
-- 維護下載歷史以避免重複。
+- 維護下載歷史以避免重複，包括檔案路徑。
 
 ## 最近變更
 
