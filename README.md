@@ -1,15 +1,16 @@
 # YouTube Playlist Downloader
 
-This Python script downloads videos from specified YouTube playlists, ensuring that only new videos since the last download are fetched.
+This Python script downloads videos from specified YouTube playlists, ensuring that only new videos since the last download are fetched. It now supports Unicode characters in JSON output, making it more useful for non-ASCII languages.
 
 ## Features
 
 - Automatically downloads new videos from YouTube playlists.
 - Organizes videos into separate folders for each playlist.
-- Maintains a download history to prevent redundancy, including the file path.
+- Maintains a download history to prevent redundancy, including the file path. History now correctly displays non-ASCII characters.
 
 ## Recent Changes
 
+- Enhanced JSON output to support Unicode characters, allowing correct display of non-ASCII characters like Chinese.
 - Fixed a JSON parsing error and enhanced error handling for more reliable operations.
 - Improved compatibility with various playlist formats.
 
@@ -33,18 +34,21 @@ Contributions are welcome. Please open an Issue for discussion before making any
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
+---
+
 # YouTube プレイリストダウンローダー
 
-この Python スクリプトは、指定された YouTube プレイリストから動画をダウンロードし、最後のダウンロード以降の新しい動画のみを取得します。
+この Python スクリプトは、指定された YouTube プレイリストから動画をダウンロードし、最後のダウンロード以降の新しい動画のみを取得します。非 ASCII 言語用に JSON 出力で Unicode 文字をサポートするようになりました。
 
 ## 特徴
 
 - YouTube プレイリストから新しい動画を自動的にダウンロードします。
 - 各プレイリストの動画を別々のフォルダに整理します。
-- 重複を避けるためのダウンロード履歴を維持します。履歴にはファイルパスも含まれます。
+- 重複を避けるためのダウンロード履歴を維持します。履歴は非 ASCII 文字を正しく表示します。
 
 ## 最近の変更
 
+- Unicode 文字をサポートするように JSON 出力を強化し、中国語などの非 ASCII 文字を正しく表示できるようにしました。
 - JSON 解析エラーを修正し、エラー処理を強化してより信頼性の高い操作が可能になりました。
 - さまざまなプレイリスト形式との互換性を改善しました。
 
@@ -68,18 +72,21 @@ Contributions are welcome. Please open an Issue for discussion before making any
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
+---
+
 # YouTube 播放列表下載器
 
-這個 Python 腳本用於從指定的 YouTube 播放列表中下載影片，確保自上次下載以來只獲取新影片。
+這個 Python 腳本用於從指定的 YouTube 播放列表中下載影片，確保自上次下載以來只獲取新影片。現在支持在 JSON 輸出中顯示 Unicode 字符，使其更適用於非 ASCII 語言。
 
 ## 功能
 
 - 自動從 YouTube 播放列表中下載新影片。
 - 為每個播放列表中的影片在不同資料夾進行整理。
-- 維護下載歷史以避免重複，包括檔案路徑。
+- 維護下載歷史以避免重複，包括檔案路徑。歷史記錄現在可以正確顯示非 ASCII 字符。
 
 ## 最近變更
 
+- 增強了 JSON 輸出以支持 Unicode 字符，允許正確顯示中文等非 ASCII 字符。
 - 修正了 JSON 解析錯誤並增強了錯誤處理，確保更可靠的操作。
 - 改進了對不同播放列表格式的兼容性。
 
