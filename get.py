@@ -44,10 +44,27 @@ def process_url(url, output_directory, history_path, exclude_keywords=[]):
         video_title, file_path = download_single_video(url, output_directory)
         if video_title and file_path:
             update_download_history_single(url, video_title, file_path, history_path)
+
+def update_download_history_single(video_url, video_title, file_path, history_path):
+    if not os.path.exists(history_path) or os.stat(history_path).st_size == 0:
+        downloaded_videos = {}
+    else:
+        with open(history_path, 'r', encoding='utf-8') as file:
+            try:
+                downloaded_videos = json.load(file)
+            except json.JSONDecodeError:
+                downloaded_videos = {}
+
+    downloaded_videos[video_url] = {'title': video_title, 'file_path': file_path}
+
+    with open(history_path, 'w', encoding='utf-8') as file:
+        json.dump(downloaded_videos, file, indent=4, ensure_ascii=False)
+
+
 def get_new_videos(playlist_url, history_path):
     """獲取新影片列表"""
     playlist = Playlist(playlist_url)
-    
+
     if not os.path.exists(history_path) or os.stat(history_path).st_size == 0:
         downloaded_videos = []
     else:
@@ -111,19 +128,19 @@ def download_new_videos(playlist_url, output_directory, history_path, exclude_ke
             update_download_history(playlist_url, video_title, video_url, file_path, history_path)
 
 
-# 播放列表 URL
-playlist_urls = [
-    "https://www.youtube.com/watch?v=gLH-lZ80AOw",
-    "https://www.youtube.com/watch?v=RhubhOrB0hE",
-    "https://www.youtube.com/watch?v=gNXwUwPkkUo",
-    "https://www.youtube.com/watch?v=ltEWFiLzNvQ&list=PL12UaAf_xzfoy0YU-yiND4M-7Mf1-AgW6",
-    "https://www.youtube.com/watch?v=vXD89zNSI8I"
-]
+def read_playlist_urls(file_path):
+    """從檔案中讀取播放列表URL"""
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return [line.strip() for line in file if line.strip()]
 
-output_directory = "playlist_downloads"
-history_path = "download_history.json"
-exclude_keywords = ['預告', '新番']
+# 主程式
+if __name__ == "__main__":
+    output_directory = "playlist_downloads"
+    history_path = "download_history.json"
+    exclude_keywords = ['預告', '新番']
+    playlist_file = "playlists.txt"  # 播放列表檔案名稱
 
-for url in playlist_urls:
-    process_url(url, output_directory, history_path, exclude_keywords)
+    playlist_urls = read_playlist_urls(playlist_file)
 
+    for url in playlist_urls:
+        process_url(url, output_directory, history_path, exclude_keywords)
