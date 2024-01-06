@@ -17,27 +17,27 @@ def download_with_retry(video_url, output_directory, playlist_title, max_retries
         try:
             video_title, file_path = download_video(video_url, output_directory, playlist_title)
             if video_title is not None and file_path is not None:
-                logging.info(f"成功下載視頻: {video_url}")
+                logging.info(f"成功下載影片: {video_url}")
                 return video_title, file_path
         except Exception as e:
             if "premieres in" in str(e).lower():  # 檢查是否是未來首播錯誤
-                logging.warning(f"視頻 {video_url} 尚未開始，將在一小時後重試")
+                logging.warning(f"影片 {video_url} 尚未開始，將在一小時後重試")
                 retry_count += 1
                 time.sleep(60 * 60)  # 等待一小時後重試
             else:
-                logging.error(f"下載視頻時發生錯誤: {str(e)}")
+                logging.error(f"下載影片時發生錯誤: {str(e)}")
                 raise e
-    logging.error(f"無法下載視頻 {video_url}，已達最大重試次數")
+    logging.error(f"無法下載影片 {video_url}，已達最大重試次數")
     return None, None
 
 def download_video(video_url, output_directory, playlist_title):
     try:
         yt = YouTube(video_url)
         video_title = yt.title
-        logging.info(f"正在下載視頻: {video_url}")
+        logging.info(f"正在下載影片: {video_url}")
         # ... 程式碼邏輯 ...
     except Exception as e:
-        logging.error(f"下載視頻時發生錯誤: {str(e)}")
+        logging.error(f"下載影片時發生錯誤: {str(e)}")
         if "members-only" in str(e).lower():
             mark_members_only(output_directory, playlist_title)
             return None, None
