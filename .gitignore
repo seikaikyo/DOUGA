@@ -1,3 +1,5 @@
 playlist_downloads/.DS_Store
 playlist_downloads/*
 download_history.json
+download_log.txt
+playlists.txt
